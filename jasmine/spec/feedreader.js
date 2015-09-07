@@ -1,3 +1,4 @@
+
 /* feedreader.js
  * Contains all Jasmine tests for our UdaciFeeds app.
  */
@@ -56,17 +57,23 @@ $(function() {
 
   describe('New Feed Selection', function() {
 
-    var currentTitle = $('.header-title').html();
     beforeEach(function(done) {
-      loadFeed(1, done); //load a different feed than the initial one
+      $('.feed').empty(); //clear out all content
+
+      //Load a feed and save it's H2 text
+      loadFeed(0, function() {
+        entries_before = $('.feed').find("h2").text();
+      });
+      //Load another feed and save it's H2 text
+      loadFeed(1, function() {
+        entries_after = $('.feed').find("h2").text();
+        done(); //Move on to the 'it' phase.
+      });
     });
 
-    afterEach(function(done) {
-      loadFeed(0, done); //return to original feed after the test
-    });
-
-    it('content changes when new feed is loaded', function() {
-      expect($('.header-title').html()).not.toBe(currentTitle); //ensure header-title changed.
+    it('changes when feed updates', function(done) {
+      expect(entries_before).not.toEqual(entries_after); //caompare the two H2 element text, expect different values
+      done(); //test completed, move on
     });
   });
 });
