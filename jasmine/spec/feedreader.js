@@ -55,25 +55,38 @@ $(function() {
 
   });
 
-  describe('New Feed Selection', function() {
-
+  describe('New Feed Selection', function(done) {
+    /* test ensures when a new feed is loaded
+     * by the loadFeed function that the content actually changes.
+     */
     beforeEach(function(done) {
-      $('.feed').empty(); //clear out all content
-
-      //Load a feed and save it's H2 text
+      // load feeds
       loadFeed(0, function() {
-        entries_before = $('.feed').find("h2").text();
+        title = $(".feed .entry h2").html();
+        header = $("h1.header-title").html();
+        loadFeed(1, function() {
+          done();
+        });
       });
-      //Load another feed and save it's H2 text
-      loadFeed(1, function() {
-        entries_after = $('.feed').find("h2").text();
-        done(); //Move on to the 'it' phase.
-      });
+    });
+    it('has some other content', function(done) {
+      // compare feeds
+      expect($(".feed .entry h2").html()).not.toBe(title);
+      // invoke the done callback function
+      done();
     });
 
-    it('changes when feed updates', function(done) {
-      expect(entries_before).not.toEqual(entries_after); //caompare the two H2 element text, expect different values
-      done(); //test completed, move on
+    it('is new feed loaded', function(done) {
+      // compare feeds
+      expect($("h1.header-title").html()).not.toBe(header);
+      // invoke the done callback function
+      done();
     });
+
+    // restore original state
+    afterAll(function(done) {
+      loadFeed(0, done);
+    });
+
   });
 });
