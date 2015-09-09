@@ -56,30 +56,23 @@ $(function() {
   });
 
   describe('New Feed Selection', function(done) {
-    /* test ensures when a new feed is loaded
-     * by the loadFeed function that the content actually changes.
-     */
+
     beforeEach(function(done) {
-      // load feeds
+      // load feed first feed, set initial variables
       loadFeed(0, function() {
         title = $(".feed .entry h2").html();
         header = $("h1.header-title").html();
+        //load second feed and move on to the 'it' statement
         loadFeed(1, function() {
+          //finished, move on
           done();
         });
       });
     });
-    it('has some other content', function(done) {
-      // compare feeds
+    it('has a new title and header', function(done) {
+      //compare new feed (loadFeed(1)) with original data (saved from loadFeed(0))
       expect($(".feed .entry h2").html()).not.toBe(title);
-      // invoke the done callback function
-      done();
-    });
-
-    it('is new feed loaded', function(done) {
-      // compare feeds
       expect($("h1.header-title").html()).not.toBe(header);
-      // invoke the done callback function
       done();
     });
 
