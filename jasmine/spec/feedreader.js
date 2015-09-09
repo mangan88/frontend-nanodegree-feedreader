@@ -35,9 +35,9 @@ $(function() {
     });
     //'click' the menu icon, and check <body> for the 'menu-hidden' class.
     it('hides/shows on icon click', function() {
-      $('i.icon-list').click();
+      $('.menu-icon-link').click();
       expect($('body').hasClass('menu-hidden')).toBe(false); //first click reveals the menu (removes menu-hidden class)
-      $('i.icon-list').click();
+      $('.menu-icon-link').click();
       expect($('body').hasClass('menu-hidden')).toBe(true); //second click hides menu again (restores menu-hidden class)
     });
 
@@ -56,16 +56,18 @@ $(function() {
   });
 
   describe('New Feed Selection', function(done) {
+    //initialize variables
+    var title = '', header = '';
 
     beforeEach(function(done) {
       // load feed first feed, set initial variables
       loadFeed(0, function() {
         title = $(".feed .entry h2").html();
         header = $("h1.header-title").html();
-        //load second feed and move on to the 'it' statement
+        // load second feed and move on to the 'it' statement
         loadFeed(1, function() {
-          //finished, move on
-          done();
+
+          done(); // finished, move on
         });
       });
     });
